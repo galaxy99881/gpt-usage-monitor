@@ -326,7 +326,18 @@
 }
 
 - (NSDictionary *)fetchUsage:(NSString **)errorOut {
-    NSArray *candidates = @[@"/opt/homebrew/bin/codex", @"/usr/local/bin/codex", [NSHomeDirectory() stringByAppendingPathComponent:@".local/bin/codex"]];
+    NSMutableArray<NSString *> *candidates = [NSMutableArray array];
+    NSURL *codexAppURL = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:@"com.openai.codex"];
+    if (codexAppURL != nil) {
+        [candidates addObject:[codexAppURL.path stringByAppendingPathComponent:@"Contents/Resources/codex"]];
+    }
+    [candidates addObjectsFromArray:@[
+        @"/Applications/Codex.app/Contents/Resources/codex",
+        [[NSHomeDirectory() stringByAppendingPathComponent:@"Applications/Codex.app"] stringByAppendingPathComponent:@"Contents/Resources/codex"],
+        @"/opt/homebrew/bin/codex",
+        @"/usr/local/bin/codex",
+        [NSHomeDirectory() stringByAppendingPathComponent:@".local/bin/codex"]
+    ]];
     NSString *codexPath = nil;
     for (NSString *path in candidates) if ([[NSFileManager defaultManager] isExecutableFileAtPath:path]) { codexPath = path; break; }
     if (!codexPath) { *errorOut = @"未找到 Codex"; return nil; }
@@ -340,7 +351,7 @@
     if (![task launchAndReturnError:&launchError]) { *errorOut = launchError.localizedDescription; return nil; }
 
     NSArray *messages = @[
-        @{@"method": @"initialize", @"id": @1, @"params": @{@"clientInfo": @{@"name": @"gpt_usage_monitor", @"title": @"GPT Usage Monitor", @"version": @"1.0.0"}}},
+        @{@"method": @"initialize", @"id": @1, @"params": @{@"clientInfo": @{@"name": @"gpt_usage_monitor", @"title": @"GPT Usage Monitor", @"version": @"1.0.1"}}},
         @{@"method": @"initialized", @"params": @{}},
         @{@"method": @"account/rateLimits/read", @"id": @2},
         @{@"method": @"account/usage/read", @"id": @3}

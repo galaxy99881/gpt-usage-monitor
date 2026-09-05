@@ -25,7 +25,7 @@ A lightweight native macOS menu-bar utility for checking Codex usage, daily toke
 - 已安装并登录 Codex CLI
 - X 监控为可选功能，需要本机配置 [Agent Reach](https://github.com/Panniantong/Agent-Reach) 的 Twitter 凭据
 
-应用依次查找 `/opt/homebrew/bin/codex`、`/usr/local/bin/codex` 和 `~/.local/bin/codex`。
+应用会自动查找 Codex 桌面应用内置的命令，也兼容 `/opt/homebrew/bin/codex`、`/usr/local/bin/codex` 和 `~/.local/bin/codex`。
 
 ### 安装预编译版本
 
@@ -100,7 +100,7 @@ open "/Applications/GPT Usage Monitor.app"
 - Codex CLI installed and signed in
 - Optional X monitoring requires [Agent Reach](https://github.com/Panniantong/Agent-Reach) with Twitter credentials configured locally
 
-The app searches `/opt/homebrew/bin/codex`, `/usr/local/bin/codex`, and `~/.local/bin/codex`.
+The app automatically discovers the CLI bundled with Codex Desktop and also supports `/opt/homebrew/bin/codex`, `/usr/local/bin/codex`, and `~/.local/bin/codex`.
 
 ### Install the prebuilt app
 
